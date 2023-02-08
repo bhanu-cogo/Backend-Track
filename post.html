@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Posts and User Details</title>
+  </head>
+  <body>
+    <h1>Posts and User Details</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Post ID</th>
+          <th>Likes</th>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody id="posts">
+      </tbody>
+    </table>
+
+    <script>
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "/posts" );
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          const postsAndUsers = JSON.parse(xhr.responseText);
+          const postsAndUsersTable = document.getElementById("posts");
+          for (const postAndUser of postsAndUsers) {
+            const row = document.createElement("tr");
+            const postIdCell = document.createElement("td");
+            postIdCell.textContent = postAndUser.post_id;
+            row.appendChild(postIdCell);
+            
+            const likesCell = document.createElement("td");
+            likesCell.textContent = postAndUser.likes;
+            row.appendChild(likesCell);
+            
+            const usernameCell = document.createElement("td");
+            usernameCell.textContent = postAndUser.username;
+            row.appendChild(usernameCell);
+            
+            postsAndUsersTable.appendChild(row);
+          }
+        }
+      };
+      xhr.send();
+    </script>
+  </body>
+</html>
